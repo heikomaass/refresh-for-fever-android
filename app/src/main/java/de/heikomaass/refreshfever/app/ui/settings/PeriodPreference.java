@@ -24,17 +24,10 @@ public class PeriodPreference extends DialogPreference {
 
     private long DEFAULT_PERIOD_IN_MILLIES = 60 * 60 * 1000L;
 
-
     public PeriodPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
         setDialogLayoutResource(R.layout.period_preference);
-        setTitle(context.getString(R.string.pref_period_title));
-    }
-
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
-        builder.setTitle(context.getString(R.string.pref_period_title)).setCancelable(true);
     }
 
     protected void onBindDialogView(View view) {
@@ -94,8 +87,6 @@ public class PeriodPreference extends DialogPreference {
         String hoursText = getSummary(hours);
         setSummary(hoursText);
     }
-
-
 
     private void updateHours() {
         int hours = this.numberPicker.getValue();

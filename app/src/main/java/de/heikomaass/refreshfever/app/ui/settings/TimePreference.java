@@ -23,10 +23,8 @@ public class TimePreference extends DialogPreference {
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         time = new LocalTime();
-        setPositiveButtonText(context.getString(R.string.set));
-        setNegativeButtonText(context.getString(R.string.cancel));
-
     }
+
     protected View onCreateDialogView() {
         picker = new TimePicker(getContext());
         picker.setIs24HourView(Boolean.TRUE);

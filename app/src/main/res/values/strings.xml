@@ -4,15 +4,12 @@
     <string name="app_name">Refresh for Fever</string>
     <string name="action_settings">Settings</string>
     <string name="pref_url">Fever URL</string>
-    <string name="pref_url_summ">URL of your Fever Service</string>
     <string name="pref_url_default">https://yourdomain.com/fever</string>
 
     <string name="pref_time">Refresh Time</string>
-    <string name="pref_time_summ">The time your Fever service will be refreshed</string>
     <string name="pref_time_default">01:00:00.000</string>
 
     <string name="pref_period_title">Refresh Period</string>
-    <string name="pref_period_summ">Refresh Period</string>
     <plurals name="pref_period_hours_label">
         <item quantity="one">hour</item>
         <item quantity="other">hours</item>
