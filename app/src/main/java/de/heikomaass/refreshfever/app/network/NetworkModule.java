@@ -1,5 +1,7 @@
 package de.heikomaass.refreshfever.app.network;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import javax.inject.Singleton;
@@ -20,7 +22,7 @@ public class NetworkModule {
     @Provides
     @Singleton
     UpdateManager provideUpdateManager(Settings settings) {
-        DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
-        return new UpdateManagerImpl(defaultHttpClient, settings);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        return new UpdateManagerImpl(okHttpClient, settings);
     }
 }
