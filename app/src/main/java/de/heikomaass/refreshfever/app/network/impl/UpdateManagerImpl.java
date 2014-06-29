@@ -4,10 +4,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -29,9 +25,9 @@ public class UpdateManagerImpl implements UpdateManager {
 
     private final static String TAG = UpdateManager.class.getSimpleName();
     private Settings settings;
-    private OkHttpClient httpClient;
+    private HttpClient httpClient;
 
-    public UpdateManagerImpl(OkHttpClient httpClient, Settings settings) {
+    public UpdateManagerImpl(HttpClient httpClient, Settings settings) {
         this.httpClient = httpClient;
         this.settings = settings;
     }
@@ -50,18 +46,23 @@ public class UpdateManagerImpl implements UpdateManager {
     }
 
     private UpdateResult updateFever(Uri uri) {
-        Request request = new Request.Builder()
-                .url(uri.toString())
-                .build();
+        HttpUriRequest httpUriRequest = new HttpGet(uri.toString());
 
         try {
-            Log.i(TAG, "Executing request: " + request);
-            Response response = httpClient.newCall(request).execute();
-            Log.i(TAG, response.message());
-            if (response.isSuccessful()) {
+            Log.i(TAG, "Executing request: " + httpUriRequest.getURI().toString());
+            HttpResponse execute = httpClient.execute(httpUriRequest);
+            StatusLine statusLine = execute.getStatusLine();
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                Log.i(TAG, statusLine.toString());
+
+                // HttpClient must consume the content. Otherwise the connection won't be closed.
+                HttpEntity entity = execute.getEntity();
+                if (entity != null) {
+                    entity.consumeContent();
+                }
                 return new UpdateResult(true, null);
             }
-            return new UpdateResult(false, response.message());
+            return new UpdateResult(false, "StatusLine : " + statusLine);
         } catch (IOException e) {
             Log.e(TAG, "Exception while refreshing fever: " + e);
             return new UpdateResult(false, "Exception while refreshing fever");
