@@ -1,5 +1,7 @@
 package de.heikomaass.refreshfever.app.network.impl;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,10 +28,12 @@ public class UpdateManagerImpl implements UpdateManager {
     private final static String TAG = UpdateManager.class.getSimpleName();
     private Settings settings;
     private HttpClient httpClient;
+    private ConnectivityManager connectivityManager;
 
-    public UpdateManagerImpl(HttpClient httpClient, Settings settings) {
+    public UpdateManagerImpl(HttpClient httpClient, ConnectivityManager connectivityManager, Settings settings) {
         this.httpClient = httpClient;
         this.settings = settings;
+        this.connectivityManager = connectivityManager;
     }
 
     @Override
@@ -40,9 +44,18 @@ public class UpdateManagerImpl implements UpdateManager {
             return new UpdateResult(false, "URL is invalid");
         }
 
+        if (!hasNetworkAccess()) {
+            return new UpdateResult(false, "No internet connection");
+        }
+
         Uri.Builder builder = uri.buildUpon().appendQueryParameter("refresh", "true");
         Uri uriWithQuery = builder.build();
         return updateFever(uriWithQuery);
+    }
+
+    private boolean hasNetworkAccess() {
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     private UpdateResult updateFever(Uri uri) {

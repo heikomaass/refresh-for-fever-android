@@ -1,5 +1,7 @@
 package de.heikomaass.refreshfever.app.network;
 
+import android.net.ConnectivityManager;
+
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import javax.inject.Singleton;
@@ -19,8 +21,8 @@ import de.heikomaass.refreshfever.app.service.FeverRefreshService;
 public class NetworkModule {
     @Provides
     @Singleton
-    UpdateManager provideUpdateManager(Settings settings) {
+    UpdateManager provideUpdateManager(ConnectivityManager connectivityManager, Settings settings) {
         DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
-        return new UpdateManagerImpl(defaultHttpClient, settings);
+        return new UpdateManagerImpl(defaultHttpClient, connectivityManager, settings);
     }
 }

@@ -2,6 +2,7 @@ package de.heikomaass.refreshfever.app;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
@@ -36,5 +37,10 @@ public class AppModule {
         return new Settings(defaultSharedPreferences);
     }
 
+    @Provides
+    @Singleton
+    ConnectivityManager provideConnectivityManager() {
+        return (ConnectivityManager) refreshFeverApp.getSystemService(refreshFeverApp.CONNECTIVITY_SERVICE);
+    }
 
 }

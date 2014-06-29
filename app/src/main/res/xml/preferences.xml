@@ -12,6 +12,7 @@
         android:key="pref_time"
         android:title="@string/pref_time"
         />
+
     <de.heikomaass.refreshfever.app.ui.settings.PeriodPreference
         android:defaultValue="3600000"
         android:key="pref_period"
