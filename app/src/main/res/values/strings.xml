@@ -18,4 +18,6 @@
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="pref_only_wlan_refresh">Only refresh using WLAN</string>
+    <string name="pref_sum_only_wlan_refresh">In order to save bandwidth and costs, only refresh fever on WLAN</string>
 </resources>

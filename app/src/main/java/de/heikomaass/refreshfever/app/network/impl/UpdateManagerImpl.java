@@ -39,6 +39,8 @@ public class UpdateManagerImpl implements UpdateManager {
     @Override
     public UpdateResult updateFever() {
         String urlFromSettings = this.settings.getFeverUrl();
+        Boolean onlyRefreshOnWlan = this.settings.getOnlyRefreshOnWlan();
+
         Uri uri = Uri.parse(urlFromSettings);
         if (TextUtils.isEmpty(uri.getScheme()) || TextUtils.isEmpty(uri.getHost())) {
             return new UpdateResult(false, "URL is invalid");
@@ -48,9 +50,18 @@ public class UpdateManagerImpl implements UpdateManager {
             return new UpdateResult(false, "No internet connection");
         }
 
+        if (!isOnWifi() && onlyRefreshOnWlan) {
+            return new UpdateResult(false, "Not using mobile data network.");
+        }
+
         Uri.Builder builder = uri.buildUpon().appendQueryParameter("refresh", "true");
         Uri uriWithQuery = builder.build();
         return updateFever(uriWithQuery);
+    }
+
+    private boolean isOnWifi() {
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     private boolean hasNetworkAccess() {

@@ -19,4 +19,11 @@
         android:title="@string/pref_period_title"
         />
 
+    <CheckBoxPreference
+        android:key="pref_only_wlan_refresh"
+        android:title="@string/pref_only_wlan_refresh"
+        android:summary="@string/pref_sum_only_wlan_refresh"
+        android:defaultValue="true" />
+
+
 </PreferenceScreen>

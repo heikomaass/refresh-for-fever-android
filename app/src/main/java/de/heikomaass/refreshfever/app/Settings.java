@@ -12,6 +12,7 @@ public class Settings {
     private static final String KEY_PREF_TIME = "pref_time";
     private static final String KEY_PREF_URL = "pref_url";
     private static final String KEY_PREF_PERIOD = "pref_period";
+    private static final String KEY_PREF_ONLY_WLAN_REFRESH = "pref_only_wlan_refresh";
 
     SharedPreferences sharedPreferences;
 
@@ -32,5 +33,10 @@ public class Settings {
     public Period getPeriod() {
         long pref_period = this.sharedPreferences.getLong(KEY_PREF_PERIOD, 60 * 60 * 1000);
         return new Period(pref_period);
+    }
+
+    public Boolean getOnlyRefreshOnWlan() {
+        boolean pref_only_refresh_on_wlan = this.sharedPreferences.getBoolean(KEY_PREF_ONLY_WLAN_REFRESH, true);
+        return pref_only_refresh_on_wlan;
     }
 }
